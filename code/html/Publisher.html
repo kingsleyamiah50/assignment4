@@ -1,0 +1,1454 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ELEC 4700 ASSIGNMENT 4</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-04-11"><meta name="DC.source" content="Publisher.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>ELEC 4700 ASSIGNMENT 4</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Part 1</a></li><li><a href="#6">Part 2</a></li><li><a href="#15">Part 3</a></li></ul></div><h2 id="1">Part 1</h2><pre class="codeinput">clearvars
+clearvars <span class="string">-GLOBAL</span>
+close <span class="string">all</span>
+set(0,<span class="string">'DefaultFigureWindowStyle'</span>, <span class="string">'docked'</span>)
+
+sizex = 6;
+sizey = 6;
+
+<span class="comment">% Voltage Range</span>
+
+Vmin = 0.1;
+Vmax = 10;
+
+<span class="comment">% Components</span>
+
+Cap = 0.25;
+R1 = 1;
+R2 = 2;
+L = 0.2;
+<span class="comment">% R3 = R3finder(Vmin,Vmax,20);</span>
+R3 = 10;
+alpha = 100;
+R4 = 0.1;
+Ro = 1000;
+omega = 10;
+
+<span class="comment">% C Matrix</span>
+C = zeros(sizex,sizey);
+C(2,1) = -Cap;
+C(2,2) = Cap;
+C(6,6) = L;
+
+<span class="comment">% G Matrix</span>
+G = zeros (sizex, sizey);
+G(1,1) = 1;
+G(2,1) = -1/R1;
+G(2,2) = (1/R1) + (1/R2);
+G(2,6) = -1;
+G(3,3) = 1/R3;
+G(3,6) = 1;
+G(4,3) = -alpha/R3;
+G(4,4) = 1;
+G(5,4) = -R4;
+G(5,5) = R4 - (1/Ro);
+G(6,2) = 1;
+G(6,3) = -1;
+</pre><p>(a) C and G matrices</p><pre class="codeinput">C
+G
+</pre><pre class="codeoutput">
+C =
+
+         0         0         0         0         0         0
+   -0.2500    0.2500         0         0         0         0
+         0         0         0         0         0         0
+         0         0         0         0         0         0
+         0         0         0         0         0         0
+         0         0         0         0         0    0.2000
+
+
+G =
+
+    1.0000         0         0         0         0         0
+   -1.0000    1.5000         0         0         0   -1.0000
+         0         0    0.1000         0         0    1.0000
+         0         0  -10.0000    1.0000         0         0
+         0         0         0   -0.1000    0.0990         0
+         0    1.0000   -1.0000         0         0         0
+
+</pre><p>(b) Plot of DC sweep</p><p>F Vector</p><pre class="codeinput">F = zeros(1,sizey);
+stepsize = 21;
+
+VoutVect = zeros(1,stepsize);
+V3Vect = zeros(1,stepsize);
+
+<span class="comment">% DC Sweep</span>
+
+<span class="keyword">for</span> i = -10:10
+    F(1) = i;
+
+    <span class="comment">% V vector</span>
+    V = (G + omega.*C)\F';
+    VoutVect(i+11) = V(5);
+    V3Vect(i+11) = V(3);
+<span class="keyword">end</span>
+
+figure
+
+plot (linspace(-10,10,stepsize),VoutVect);
+title(<span class="string">'-10V to 10V'</span>);
+hold <span class="string">on</span>
+plot (linspace(-10,10,stepsize), V3Vect);
+legend(<span class="string">'Vo'</span>, <span class="string">'V3'</span>);
+xlabel(<span class="string">'Vin'</span>);
+ylabel(<span class="string">'V'</span>);
+</pre><img vspace="5" hspace="5" src="Publisher_01.png" alt=""> <p>(c) Plots from AC case of Gain AC Sweep</p><pre class="codeinput">F = zeros(1,sizey);
+F(1) = 1;
+stepsize = 100;
+
+VoutVect = zeros(1,stepsize);
+V3Vect = zeros(1,stepsize);
+
+omega = linspace(1,100,stepsize);
+
+<span class="keyword">for</span> i = 1:stepsize
+    V = (G + 1j*omega(i).*C)\F';
+    VoutVect(i) = V(5);
+    V3Vect(i) = V(3);
+<span class="keyword">end</span>
+figure
+
+subplot(1,2,1);
+
+plot (omega,abs(VoutVect));
+title(<span class="string">' 0 to 100Hz'</span>);
+hold <span class="string">on</span>
+plot (omega, abs(V3Vect));
+legend(<span class="string">'Vo'</span>, <span class="string">'V3'</span>);
+xlabel(<span class="string">'w'</span>);
+ylabel(<span class="string">'V'</span>);
+
+gain = 20 * log(abs(VoutVect./F(1)));
+
+subplot(1,2,2);
+plot(omega, gain);
+title(<span class="string">'Gain Vo/V1 in dB'</span>);
+xlabel(<span class="string">'w'</span>);
+ylabel(<span class="string">'Vo/V1 in dB'</span>);
+</pre><img vspace="5" hspace="5" src="Publisher_02.png" alt=""> <p>(d) (e) Plot of Vin and Vout from numerical solution in time domain and fourier transforms</p><pre class="codeinput">deltaT = 1e-3;
+
+<span class="comment">% A vector</span>
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+<span class="comment">% F vector</span>
+F = zeros(1,sizey);
+
+<span class="comment">% Vin and Vout Vectors</span>
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+<span class="comment">% Time simulation - step function</span>
+
+timeVector = linspace(1,timesteps,timesteps);
+figure
+<span class="keyword">for</span> i = 2:timesteps
+
+    <span class="comment">% F vector</span>
+
+    <span class="keyword">if</span> (i == 30)
+        F(1) = 1;
+    <span class="keyword">end</span>
+
+    V = A\(((C * Vp)./deltaT) + F');
+
+    subplot(2,3,1)
+    plot([timeVector(i-1) timeVector(i)],[Vp(1) V(1)],<span class="string">'-r'</span>);
+
+    hold <span class="string">on</span>
+
+    plot([timeVector(i-1) timeVector(i)],[Vp(5) V(5)],<span class="string">'-b'</span>);
+
+    pause(0.01);
+
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+
+    Vp = V;
+<span class="keyword">end</span>
+
+legend(<span class="string">'Vin'</span>, <span class="string">'Vout'</span>);
+title(<span class="string">'Time Simulation - Step function'</span>);
+
+xlim([0 1000]);
+ylim([0 12]);
+xlabel(<span class="string">'Time (ms)'</span>);
+ylabel(<span class="string">'Voltage'</span>);
+
+subplot(2,3,2)
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),<span class="string">'-b'</span>);
+hold <span class="string">on</span>
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),<span class="string">'-r'</span>);
+legend(<span class="string">'Vout'</span>, <span class="string">'Vin'</span>);
+xlabel(<span class="string">'Frequency'</span>);
+ylabel(<span class="string">'Voltage (dB)'</span>);
+
+
+<span class="comment">% Time simulation - sinusoidal function</span>
+
+<span class="comment">% Vin and Vout Vectors</span>
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+Vp = zeros(sizey,1);
+
+<span class="keyword">for</span> i = 2:timesteps
+
+    <span class="comment">% F vector</span>
+
+    F(1) = sin(2 * pi * (1/0.03) * timeVector(i) * deltaT);
+
+    V = A\(((C * Vp)./deltaT) + F');
+
+    subplot(2,3,3)
+    plot([timeVector(i-1) timeVector(i)],[Vp(1) V(1)],<span class="string">'-r'</span>);
+
+    hold <span class="string">on</span>
+
+    plot([timeVector(i-1) timeVector(i)],[Vp(5) V(5)],<span class="string">'-b'</span>);
+    pause(0.01);
+
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+
+    Vp = V;
+<span class="keyword">end</span>
+
+legend(<span class="string">'Vin'</span>, <span class="string">'Vout'</span>);
+title(<span class="string">'Time Simulation - Sinusoidal function'</span>);
+
+<span class="comment">% xlim([0 1000]);</span>
+<span class="comment">% ylim([0 12]);</span>
+xlabel(<span class="string">'Time (ms)'</span>);
+ylabel(<span class="string">'Voltage'</span>);
+
+subplot(2,3,4)
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),<span class="string">'-b'</span>);
+hold <span class="string">on</span>
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),<span class="string">'-r'</span>);
+legend(<span class="string">'Vout'</span>, <span class="string">'Vin'</span>);
+
+xlabel(<span class="string">'Frequency'</span>);
+ylabel(<span class="string">'Voltage (dB)'</span>);
+<span class="comment">% Time simulation - gaussian pulse</span>
+
+<span class="comment">% Vin and Vout Vectors</span>
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+Vp = zeros(sizey,1);
+
+pulsepos = 30 * randi(10);
+<span class="comment">% pulsepos = 5;</span>
+delayCnt = 0;
+deltaT = 0.06;
+
+<span class="keyword">for</span> i = 2:timesteps
+
+    <span class="comment">% F vector</span>
+
+     <span class="keyword">if</span> (i &gt;= pulsepos)
+        delayCnt = delayCnt + 1;
+        <span class="keyword">if</span>(delayCnt == 60)
+          F(1) = 1;
+          delayCnt = 0;
+        <span class="keyword">end</span>
+
+     <span class="keyword">end</span>
+
+    V = A\(((C * Vp)./deltaT) + F');
+
+    subplot(2,3,5)
+    plot([timeVector(i-1) timeVector(i)],[Vp(1) V(1)],<span class="string">'-r'</span>);
+
+    hold <span class="string">on</span>
+
+    plot([timeVector(i-1) timeVector(i)],[Vp(5) V(5)],<span class="string">'-b'</span>);
+
+    pause(0.01);
+
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+
+    Vp = V;
+<span class="keyword">end</span>
+legend(<span class="string">'Vin'</span>, <span class="string">'Vout'</span>);
+title(<span class="string">'Time Simulation - Step function (delayed)'</span>);
+
+ xlim([0 1000]);
+<span class="comment">% ylim([0 12]);</span>
+xlabel(<span class="string">'Time (ms)'</span>);
+ylabel(<span class="string">'Voltage'</span>);
+
+subplot(2,3,6)
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),<span class="string">'-b'</span>);
+hold <span class="string">on</span>
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),<span class="string">'-r'</span>);
+legend(<span class="string">'Vout'</span>, <span class="string">'Vin'</span>);
+xlabel(<span class="string">'Frequency'</span>);
+ylabel(<span class="string">'Voltage (dB)'</span>);
+</pre><pre class="codeoutput">Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+</pre><img vspace="5" hspace="5" src="Publisher_03.png" alt=""> <h2 id="6">Part 2</h2><pre class="codeinput">clearvars
+clearvars <span class="string">-GLOBAL</span>
+close <span class="string">all</span>
+set(0,<span class="string">'DefaultFigureWindowStyle'</span>, <span class="string">'docked'</span>)
+
+sizex = 6;
+sizey = 6;
+
+<span class="comment">% Voltage Range</span>
+
+Vmin = 0.1;
+Vmax = 10;
+
+<span class="comment">% Components</span>
+
+Cap = 0.25;
+R1 = 1;
+R2 = 2;
+L = 0.2;
+<span class="comment">% R3 = R3finder(Vmin,Vmax,20);</span>
+R3 = 10;
+alpha = 100;
+R4 = 0.1;
+Ro = 1000;
+omega = 10;
+
+<span class="comment">% Noise components</span>
+In = 0.001;
+Cn = 1e-5;
+
+<span class="comment">% C Matrix</span>
+C = zeros(sizex,sizey);
+C(2,1) = -Cap;
+C(2,2) = Cap;
+C(3,3) = Cn;
+C(6,6) = L;
+
+<span class="comment">% G Matrix</span>
+G = zeros (sizex, sizey);
+G(1,1) = 1;
+G(2,1) = -1/R1;
+G(2,2) = (1/R1) + (1/R2);
+G(2,6) = -1;
+G(3,3) = 1/R3;
+G(3,6) = 1;
+G(4,3) = -alpha/R3;
+G(4,4) = 1;
+G(5,4) = -R4;
+G(5,5) = R4 - (1/Ro);
+G(6,2) = 1;
+G(6,3) = -1;
+</pre><p>(a) Updated C and G matrices</p><pre class="codeinput">C
+G
+</pre><pre class="codeoutput">
+C =
+
+         0         0         0         0         0         0
+   -0.2500    0.2500         0         0         0         0
+         0         0    0.0000         0         0         0
+         0         0         0         0         0         0
+         0         0         0         0         0         0
+         0         0         0         0         0    0.2000
+
+
+G =
+
+    1.0000         0         0         0         0         0
+   -1.0000    1.5000         0         0         0   -1.0000
+         0         0    0.1000         0         0    1.0000
+         0         0  -10.0000    1.0000         0         0
+         0         0         0   -0.1000    0.0990         0
+         0    1.0000   -1.0000         0         0         0
+
+</pre><p>(b) Plot of Vout with noise source</p><pre class="codeinput">deltaT = 1e-3;
+
+<span class="comment">% A vector</span>
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+<span class="comment">% F vector</span>
+F = zeros(1,sizey);
+F(3) = In;
+
+<span class="comment">% Vin and Vout Vectors</span>
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+<span class="comment">% Time simulation - step function</span>
+
+timeVector = linspace(1,timesteps,timesteps);
+figure
+<span class="keyword">for</span> i = 2:timesteps
+
+    <span class="comment">% F vector</span>
+
+    <span class="keyword">if</span> (i == 30)
+        F(1) = 1;
+    <span class="keyword">end</span>
+
+    V = A\(((C * Vp)./deltaT) + F');
+
+
+    plot([timeVector(i-1) timeVector(i)],[Vp(1) V(1)],<span class="string">'-r'</span>);
+
+    hold <span class="string">on</span>
+
+    plot([timeVector(i-1) timeVector(i)],[Vp(5) V(5)],<span class="string">'-b'</span>);
+
+
+    pause(0.01);
+
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+
+    Vp = V;
+    F(3) = In*randn();
+
+<span class="keyword">end</span>
+xlim([0 1000]);
+ylim([0 12]);
+xlabel(<span class="string">'Time (ms)'</span>);
+ylabel(<span class="string">'Voltage'</span>);
+legend(<span class="string">'Vin'</span>, <span class="string">'Vout'</span>);
+title(<span class="string">'Time Simulation - Vout with noise source'</span>);
+</pre><img vspace="5" hspace="5" src="Publisher_04.png" alt=""> <p>(c) Fourier Transform plot</p><pre class="codeinput">figure
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),<span class="string">'-b'</span>);
+hold <span class="string">on</span>
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),<span class="string">'-r'</span>);
+legend(<span class="string">'Vout'</span>, <span class="string">'Vin'</span>);
+</pre><pre class="codeoutput">Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+</pre><img vspace="5" hspace="5" src="Publisher_05.png" alt=""> <p>(e) 3 plots of Vout with different Cout</p><p>Cout = 1e-5</p><pre class="codeinput">C(3,3) = 1e-5;
+deltaT = 1e-3;
+
+<span class="comment">% A vector</span>
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+<span class="comment">% F vector</span>
+F = zeros(1,sizey);
+F(3) = In;
+
+<span class="comment">% Vin and Vout Vectors</span>
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+<span class="comment">% Time simulation - step function</span>
+
+timeVector = linspace(1,timesteps,timesteps);
+
+<span class="keyword">for</span> i = 2:timesteps
+
+    <span class="comment">% F vector</span>
+
+    <span class="keyword">if</span> (i == 30)
+        F(1) = 1;
+    <span class="keyword">end</span>
+
+    V = A\(((C * Vp)./deltaT) + F');
+
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+
+    Vp = V;
+    F(3) = In*randn();
+
+<span class="keyword">end</span>
+
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),<span class="string">'-b'</span>);
+hold <span class="string">on</span>
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),<span class="string">'-r'</span>);
+legend(<span class="string">'Vout'</span>, <span class="string">'Vin'</span>);
+xlabel(<span class="string">'Frequency'</span>);
+ylabel(<span class="string">'Voltage'</span>);
+title(<span class="string">'Frequency Domain - Noisy (Cn = 1e-5)'</span>);
+</pre><pre class="codeoutput">Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+</pre><img vspace="5" hspace="5" src="Publisher_06.png" alt=""> <p>Cout = 1e-4</p><pre class="codeinput">C(3,3) = 1e-4;
+deltaT = 1e-3;
+
+<span class="comment">% A vector</span>
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+<span class="comment">% F vector</span>
+F = zeros(1,sizey);
+F(3) = In;
+
+<span class="comment">% Vin and Vout Vectors</span>
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+<span class="comment">% Time simulation - step function</span>
+
+timeVector = linspace(1,timesteps,timesteps);
+
+<span class="keyword">for</span> i = 2:timesteps
+
+    <span class="comment">% F vector</span>
+
+    <span class="keyword">if</span> (i == 30)
+        F(1) = 1;
+    <span class="keyword">end</span>
+
+    V = A\(((C * Vp)./deltaT) + F');
+
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+
+    Vp = V;
+    F(3) = In*randn();
+
+<span class="keyword">end</span>
+
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),<span class="string">'-b'</span>);
+hold <span class="string">on</span>
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),<span class="string">'-r'</span>);
+legend(<span class="string">'Vout'</span>, <span class="string">'Vin'</span>);
+xlabel(<span class="string">'Frequency'</span>);
+ylabel(<span class="string">'Voltage'</span>);
+title(<span class="string">'Frequency Domain - Noisy (Cn = 1e-4)'</span>);
+</pre><pre class="codeoutput">Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+</pre><img vspace="5" hspace="5" src="Publisher_07.png" alt=""> <p>Cout = 1e-3</p><pre class="codeinput">C(3,3) = 1e-3;
+deltaT = 1e-3;
+
+<span class="comment">% A vector</span>
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+<span class="comment">% F vector</span>
+F = zeros(1,sizey);
+F(3) = In;
+
+<span class="comment">% Vin and Vout Vectors</span>
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+<span class="comment">% Time simulation - step function</span>
+
+timeVector = linspace(1,timesteps,timesteps);
+
+<span class="keyword">for</span> i = 2:timesteps
+
+    <span class="comment">% F vector</span>
+
+    <span class="keyword">if</span> (i == 30)
+        F(1) = 1;
+    <span class="keyword">end</span>
+
+    V = A\(((C * Vp)./deltaT) + F');
+
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+
+    Vp = V;
+    F(3) = In*randn();
+
+<span class="keyword">end</span>
+
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),<span class="string">'-b'</span>);
+hold <span class="string">on</span>
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),<span class="string">'-r'</span>);
+legend(<span class="string">'Vout'</span>, <span class="string">'Vin'</span>);
+xlabel(<span class="string">'Frequency'</span>);
+ylabel(<span class="string">'Voltage'</span>);
+title(<span class="string">'Frequency Domain - Noisy (Cn = 1e-3)'</span>);
+</pre><pre class="codeoutput">Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+Warning: Imaginary parts of complex X and/or Y arguments ignored. 
+</pre><img vspace="5" hspace="5" src="Publisher_08.png" alt=""> <p>(f) 2 plots of Vout with different time stops delta = 1e-3;</p><pre class="codeinput">deltaT = 1e-3;
+C(3,3) = 1e-5;
+
+<span class="comment">% A vector</span>
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+<span class="comment">% F vector</span>
+F = zeros(1,sizey);
+F(3) = In;
+
+<span class="comment">% Vin and Vout Vectors</span>
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+<span class="comment">% Time simulation - step function</span>
+
+timeVector = linspace(1,timesteps,timesteps);
+figure
+<span class="keyword">for</span> i = 2:timesteps
+
+    <span class="comment">% F vector</span>
+
+    <span class="keyword">if</span> (i == 30)
+        F(1) = 1;
+    <span class="keyword">end</span>
+
+    V = A\(((C * Vp)./deltaT) + F');
+
+
+    plot([timeVector(i-1) timeVector(i)],[Vp(1) V(1)],<span class="string">'-r'</span>);
+
+    hold <span class="string">on</span>
+
+    plot([timeVector(i-1) timeVector(i)],[Vp(5) V(5)],<span class="string">'-b'</span>);
+
+
+    pause(0.01);
+
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+
+    Vp = V;
+    F(3) = In*randn();
+
+<span class="keyword">end</span>
+xlim([0 1000]);
+ylim([0 12]);
+xlabel(<span class="string">'Time (ms)'</span>);
+ylabel(<span class="string">'Voltage'</span>);
+legend(<span class="string">'Vin'</span>, <span class="string">'Vout'</span>);
+title(<span class="string">'Time Simulation - delta = 1e-3'</span>);
+</pre><img vspace="5" hspace="5" src="Publisher_09.png" alt=""> <p>delta = 1e-6;</p><pre class="codeinput">deltaT = 1e-6;
+C(3,3) = 1e-5;
+
+<span class="comment">% A vector</span>
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+<span class="comment">% F vector</span>
+F = zeros(1,sizey);
+F(3) = In;
+
+<span class="comment">% Vin and Vout Vectors</span>
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+<span class="comment">% Time simulation - step function</span>
+
+timeVector = linspace(1,timesteps,timesteps);
+figure
+<span class="keyword">for</span> i = 2:timesteps
+
+    <span class="comment">% F vector</span>
+
+    <span class="keyword">if</span> (i == 30)
+        F(1) = 1;
+    <span class="keyword">end</span>
+
+    V = A\(((C * Vp)./deltaT) + F');
+
+
+    plot([timeVector(i-1) timeVector(i)],[Vp(1) V(1)],<span class="string">'-r'</span>);
+
+    hold <span class="string">on</span>
+
+    plot([timeVector(i-1) timeVector(i)],[Vp(5) V(5)],<span class="string">'-b'</span>);
+
+
+    pause(0.01);
+
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+
+    Vp = V;
+    F(3) = In*randn();
+
+<span class="keyword">end</span>
+xlim([0 1000]);
+ylim([0 12]);
+xlabel(<span class="string">'Time (ms)'</span>);
+ylabel(<span class="string">'Voltage'</span>);
+legend(<span class="string">'Vin'</span>, <span class="string">'Vout'</span>);
+title(<span class="string">'Time Simulation - delta = 1e-3'</span>);
+</pre><img vspace="5" hspace="5" src="Publisher_10.png" alt=""> <h2 id="15">Part 3</h2><p>(a) Description of steps needed to implement the non-linearity This can be done by introducing the B matrix as discussed in class. All matrices will remain the same. Also the equation with V4 = alpha*I3 will change to include the new terms and constants. B(4) matrix will also include beta(^1/2) - gamma (^1/3). The rest of B must be zeros.</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% ELEC 4700 ASSIGNMENT 4
+%% Part 1
+%
+clearvars
+clearvars -GLOBAL
+close all
+set(0,'DefaultFigureWindowStyle', 'docked')
+
+sizex = 6;
+sizey = 6;
+
+% Voltage Range
+
+Vmin = 0.1;
+Vmax = 10;
+
+% Components
+
+Cap = 0.25;
+R1 = 1;
+R2 = 2;
+L = 0.2;
+% R3 = R3finder(Vmin,Vmax,20);
+R3 = 10;
+alpha = 100;
+R4 = 0.1;
+Ro = 1000;
+omega = 10;
+
+% C Matrix
+C = zeros(sizex,sizey);
+C(2,1) = -Cap;
+C(2,2) = Cap;
+C(6,6) = L;
+
+% G Matrix
+G = zeros (sizex, sizey);
+G(1,1) = 1;
+G(2,1) = -1/R1;
+G(2,2) = (1/R1) + (1/R2);
+G(2,6) = -1;
+G(3,3) = 1/R3;
+G(3,6) = 1;
+G(4,3) = -alpha/R3;
+G(4,4) = 1;
+G(5,4) = -R4;
+G(5,5) = R4 - (1/Ro);
+G(6,2) = 1;
+G(6,3) = -1;
+%%
+% (a) C and G matrices
+C
+G
+%%
+% (b) Plot of DC sweep
+%
+% F Vector
+F = zeros(1,sizey);
+stepsize = 21;
+
+VoutVect = zeros(1,stepsize);
+V3Vect = zeros(1,stepsize);
+
+% DC Sweep
+
+for i = -10:10
+    F(1) = i;
+    
+    % V vector
+    V = (G + omega.*C)\F';
+    VoutVect(i+11) = V(5);
+    V3Vect(i+11) = V(3);
+end
+
+figure
+
+plot (linspace(-10,10,stepsize),VoutVect);
+title('-10V to 10V');
+hold on
+plot (linspace(-10,10,stepsize), V3Vect);
+legend('Vo', 'V3');
+xlabel('Vin');
+ylabel('V');
+%%
+% (c) Plots from AC case of Gain
+% AC Sweep 
+
+F = zeros(1,sizey);
+F(1) = 1;
+stepsize = 100;
+
+VoutVect = zeros(1,stepsize);
+V3Vect = zeros(1,stepsize);
+
+omega = linspace(1,100,stepsize);
+
+for i = 1:stepsize
+    V = (G + 1j*omega(i).*C)\F';
+    VoutVect(i) = V(5);
+    V3Vect(i) = V(3);
+end    
+figure
+
+subplot(1,2,1);
+
+plot (omega,abs(VoutVect));
+title(' 0 to 100Hz');
+hold on
+plot (omega, abs(V3Vect));
+legend('Vo', 'V3');
+xlabel('w');
+ylabel('V');
+
+gain = 20 * log(abs(VoutVect./F(1)));
+
+subplot(1,2,2);
+plot(omega, gain);
+title('Gain Vo/V1 in dB');
+xlabel('w');
+ylabel('Vo/V1 in dB');
+
+%%
+% (d) (e) Plot of Vin and Vout from numerical solution in time domain and
+% fourier transforms
+%
+deltaT = 1e-3;
+
+% A vector
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+% F vector
+F = zeros(1,sizey);
+
+% Vin and Vout Vectors
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+% Time simulation - step function
+
+timeVector = linspace(1,timesteps,timesteps);
+figure
+for i = 2:timesteps
+    
+    % F vector
+    
+    if (i == 30)
+        F(1) = 1;
+    end
+    
+    V = A\(((C * Vp)./deltaT) + F');
+  
+    subplot(2,3,1)
+    plot([timeVector(i-1) timeVector(i)],[Vp(1) V(1)],'-r');
+    
+    hold on
+    
+    plot([timeVector(i-1) timeVector(i)],[Vp(5) V(5)],'-b');
+
+    pause(0.01);
+    
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+    
+    Vp = V;
+end
+
+legend('Vin', 'Vout');
+title('Time Simulation - Step function');
+
+xlim([0 1000]);
+ylim([0 12]);
+xlabel('Time (ms)');
+ylabel('Voltage');
+
+subplot(2,3,2)
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),'-b');
+hold on 
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),'-r');
+legend('Vout', 'Vin');
+xlabel('Frequency');
+ylabel('Voltage (dB)');
+
+
+% Time simulation - sinusoidal function
+
+% Vin and Vout Vectors
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+Vp = zeros(sizey,1);
+
+for i = 2:timesteps
+    
+    % F vector
+    
+    F(1) = sin(2 * pi * (1/0.03) * timeVector(i) * deltaT);
+    
+    V = A\(((C * Vp)./deltaT) + F');
+  
+    subplot(2,3,3)
+    plot([timeVector(i-1) timeVector(i)],[Vp(1) V(1)],'-r');
+    
+    hold on
+    
+    plot([timeVector(i-1) timeVector(i)],[Vp(5) V(5)],'-b');
+    pause(0.01);
+    
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+    
+    Vp = V;
+end
+
+legend('Vin', 'Vout');
+title('Time Simulation - Sinusoidal function');
+
+% xlim([0 1000]);
+% ylim([0 12]);
+xlabel('Time (ms)');
+ylabel('Voltage');
+
+subplot(2,3,4)
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),'-b');
+hold on 
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),'-r');
+legend('Vout', 'Vin');
+
+xlabel('Frequency');
+ylabel('Voltage (dB)');
+% Time simulation - gaussian pulse
+
+% Vin and Vout Vectors
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+Vp = zeros(sizey,1);
+
+pulsepos = 30 * randi(10);
+% pulsepos = 5;
+delayCnt = 0;
+deltaT = 0.06;
+
+for i = 2:timesteps
+    
+    % F vector
+    
+     if (i >= pulsepos)
+        delayCnt = delayCnt + 1;
+        if(delayCnt == 60)
+          F(1) = 1;
+          delayCnt = 0;
+        end
+         
+     end
+    
+    V = A\(((C * Vp)./deltaT) + F');
+  
+    subplot(2,3,5)
+    plot([timeVector(i-1) timeVector(i)],[Vp(1) V(1)],'-r');
+    
+    hold on
+    
+    plot([timeVector(i-1) timeVector(i)],[Vp(5) V(5)],'-b');
+
+    pause(0.01);
+    
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+    
+    Vp = V;
+end
+legend('Vin', 'Vout');
+title('Time Simulation - Step function (delayed)');
+
+ xlim([0 1000]);
+% ylim([0 12]);
+xlabel('Time (ms)');
+ylabel('Voltage');
+
+subplot(2,3,6)
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),'-b');
+hold on 
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),'-r');
+legend('Vout', 'Vin');
+xlabel('Frequency');
+ylabel('Voltage (dB)');
+
+%% Part 2
+%
+clearvars
+clearvars -GLOBAL
+close all
+set(0,'DefaultFigureWindowStyle', 'docked')
+
+sizex = 6;
+sizey = 6;
+
+% Voltage Range
+
+Vmin = 0.1;
+Vmax = 10;
+
+% Components
+
+Cap = 0.25;
+R1 = 1;
+R2 = 2;
+L = 0.2;
+% R3 = R3finder(Vmin,Vmax,20);
+R3 = 10;
+alpha = 100;
+R4 = 0.1;
+Ro = 1000;
+omega = 10;
+
+% Noise components
+In = 0.001;
+Cn = 1e-5;
+
+% C Matrix
+C = zeros(sizex,sizey);
+C(2,1) = -Cap;
+C(2,2) = Cap;
+C(3,3) = Cn;
+C(6,6) = L;
+
+% G Matrix
+G = zeros (sizex, sizey);
+G(1,1) = 1;
+G(2,1) = -1/R1;
+G(2,2) = (1/R1) + (1/R2);
+G(2,6) = -1;
+G(3,3) = 1/R3;
+G(3,6) = 1;
+G(4,3) = -alpha/R3;
+G(4,4) = 1;
+G(5,4) = -R4;
+G(5,5) = R4 - (1/Ro);
+G(6,2) = 1;
+G(6,3) = -1;
+%%
+% (a) Updated C and G matrices
+C
+G
+%%
+% (b) Plot of Vout with noise source
+%
+deltaT = 1e-3;
+
+% A vector
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+% F vector
+F = zeros(1,sizey);
+F(3) = In;
+
+% Vin and Vout Vectors
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+% Time simulation - step function
+
+timeVector = linspace(1,timesteps,timesteps);
+figure
+for i = 2:timesteps
+    
+    % F vector
+    
+    if (i == 30)
+        F(1) = 1;
+    end
+    
+    V = A\(((C * Vp)./deltaT) + F');
+  
+    
+    plot([timeVector(i-1) timeVector(i)],[Vp(1) V(1)],'-r');
+    
+    hold on
+    
+    plot([timeVector(i-1) timeVector(i)],[Vp(5) V(5)],'-b');
+
+    
+    pause(0.01);
+    
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+    
+    Vp = V;
+    F(3) = In*randn();
+    
+end
+xlim([0 1000]);
+ylim([0 12]);
+xlabel('Time (ms)');
+ylabel('Voltage');
+legend('Vin', 'Vout');
+title('Time Simulation - Vout with noise source');
+
+%%
+% (c) Fourier Transform plot
+%
+figure
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),'-b');
+hold on 
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),'-r');
+legend('Vout', 'Vin');
+
+%%
+% (e) 3 plots of Vout with different Cout
+%
+% Cout = 1e-5
+
+C(3,3) = 1e-5;
+deltaT = 1e-3;
+
+% A vector
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+% F vector
+F = zeros(1,sizey);
+F(3) = In;
+
+% Vin and Vout Vectors
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+% Time simulation - step function
+
+timeVector = linspace(1,timesteps,timesteps);
+
+for i = 2:timesteps
+    
+    % F vector
+    
+    if (i == 30)
+        F(1) = 1;
+    end
+    
+    V = A\(((C * Vp)./deltaT) + F');
+    
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+    
+    Vp = V;
+    F(3) = In*randn();
+    
+end
+
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),'-b');
+hold on 
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),'-r');
+legend('Vout', 'Vin');
+xlabel('Frequency');
+ylabel('Voltage');
+title('Frequency Domain - Noisy (Cn = 1e-5)');
+
+%%
+%
+% Cout = 1e-4
+%
+C(3,3) = 1e-4;
+deltaT = 1e-3;
+
+% A vector
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+% F vector
+F = zeros(1,sizey);
+F(3) = In;
+
+% Vin and Vout Vectors
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+% Time simulation - step function
+
+timeVector = linspace(1,timesteps,timesteps);
+
+for i = 2:timesteps
+    
+    % F vector
+    
+    if (i == 30)
+        F(1) = 1;
+    end
+    
+    V = A\(((C * Vp)./deltaT) + F');
+    
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+    
+    Vp = V;
+    F(3) = In*randn();
+    
+end
+
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),'-b');
+hold on 
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),'-r');
+legend('Vout', 'Vin');
+xlabel('Frequency');
+ylabel('Voltage');
+title('Frequency Domain - Noisy (Cn = 1e-4)');
+
+%% 
+%
+% Cout = 1e-3
+%
+C(3,3) = 1e-3;
+deltaT = 1e-3;
+
+% A vector
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+% F vector
+F = zeros(1,sizey);
+F(3) = In;
+
+% Vin and Vout Vectors
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+% Time simulation - step function
+
+timeVector = linspace(1,timesteps,timesteps);
+
+for i = 2:timesteps
+    
+    % F vector
+    
+    if (i == 30)
+        F(1) = 1;
+    end
+    
+    V = A\(((C * Vp)./deltaT) + F');
+    
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+    
+    Vp = V;
+    F(3) = In*randn();
+    
+end
+
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VoutVect))),'-b');
+hold on 
+plot(linspace(1,1000,1000),fftshift(20*log(fft(VinVect))),'-r');
+legend('Vout', 'Vin');
+xlabel('Frequency');
+ylabel('Voltage');
+title('Frequency Domain - Noisy (Cn = 1e-3)');
+
+%%
+% (f) 2 plots of Vout with different time stops
+% delta = 1e-3;
+deltaT = 1e-3;
+C(3,3) = 1e-5;
+
+% A vector
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+% F vector
+F = zeros(1,sizey);
+F(3) = In;
+
+% Vin and Vout Vectors
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+% Time simulation - step function
+
+timeVector = linspace(1,timesteps,timesteps);
+figure
+for i = 2:timesteps
+    
+    % F vector
+    
+    if (i == 30)
+        F(1) = 1;
+    end
+    
+    V = A\(((C * Vp)./deltaT) + F');
+  
+    
+    plot([timeVector(i-1) timeVector(i)],[Vp(1) V(1)],'-r');
+    
+    hold on
+    
+    plot([timeVector(i-1) timeVector(i)],[Vp(5) V(5)],'-b');
+
+    
+    pause(0.01);
+    
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+    
+    Vp = V;
+    F(3) = In*randn();
+    
+end
+xlim([0 1000]);
+ylim([0 12]);
+xlabel('Time (ms)');
+ylabel('Voltage');
+legend('Vin', 'Vout');
+title('Time Simulation - delta = 1e-3');
+
+%% 
+% delta = 1e-6;
+deltaT = 1e-6;
+C(3,3) = 1e-5;
+
+% A vector
+A = (C./deltaT) + G;
+
+timesteps = 1000;
+Vp = zeros(sizey,1);
+
+
+% F vector
+F = zeros(1,sizey);
+F(3) = In;
+
+% Vin and Vout Vectors
+VinVect = zeros(timesteps,1);
+VoutVect = zeros(timesteps,1);
+
+% Time simulation - step function
+
+timeVector = linspace(1,timesteps,timesteps);
+figure
+for i = 2:timesteps
+    
+    % F vector
+    
+    if (i == 30)
+        F(1) = 1;
+    end
+    
+    V = A\(((C * Vp)./deltaT) + F');
+  
+    
+    plot([timeVector(i-1) timeVector(i)],[Vp(1) V(1)],'-r');
+    
+    hold on
+    
+    plot([timeVector(i-1) timeVector(i)],[Vp(5) V(5)],'-b');
+
+    
+    pause(0.01);
+    
+    VinVect(i) = V(1);
+    VoutVect(i) = V(5);
+    
+    Vp = V;
+    F(3) = In*randn();
+    
+end
+xlim([0 1000]);
+ylim([0 12]);
+xlabel('Time (ms)');
+ylabel('Voltage');
+legend('Vin', 'Vout');
+title('Time Simulation - delta = 1e-3');
+
+%% Part 3
+% 
+% (a) Description of steps needed to implement the non-linearity
+% This can be done by introducing the B matrix as discussed in class. All
+% matrices will remain the same. Also the equation with V4 = alpha*I3 will change to
+% include the new terms and constants. B(4) matrix will also include
+% beta(^1/2) - gamma (^1/3). The rest of B must be zeros. 
+##### SOURCE END #####
+--></body></html>
